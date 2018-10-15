@@ -1,6 +1,5 @@
 #SingleInstance, force
 #MaxThreadsPerHotkey 2
-Menu, Tray, icon, Media Key Repeater.ico
 
 ;Defaults
 global Controls := ["Media_Key_Value", "Interval_Seconds", "Toggle_Hotkey", "Button_HKValue"]

@@ -1,10 +1,15 @@
 #SingleInstance, force
+#MaxThreadsPerHotkey 2
+Menu, Tray, icon, play.ico
+
+;Defaults
+Media_Key = Media_Next
+Toggle_Hotkey = ^!t
 
 ;GUI Preamble
 Gui, Color, f0eee9
 
 ;GUI Content
-
 ;Repeater Settings
 Gui, Add, GroupBox, x12 y9 w260 h90 , Repeater Settings
 

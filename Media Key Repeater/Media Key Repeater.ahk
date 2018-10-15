@@ -37,8 +37,13 @@ Gui, Add, Button, x162 y250 w100 h30 vRun_Button_ID gRun_Button, Run
 
 ;Status Bar
 Gui, Add, StatusBar
-Gui, Show, h320 w285, Media Key Repeater
 
+;Copyright
+Gui, Add, Text, x22 y239 w100 h20 , ver 1.00
+Gui, Add, Link, x22 y259 w120 h20 , <a href="https://github.com/jasperdanan">(c) Jasper Danan, 2018</a>
+
+;Main Window
+Gui, Show, h320 w285, Media Key Repeater
 
 Return
 

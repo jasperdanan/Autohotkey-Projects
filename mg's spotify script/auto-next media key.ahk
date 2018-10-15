@@ -3,10 +3,11 @@
 Menu, Tray, icon, play.ico
 
 ;Defaults
+global Controls := ["Media_Key_Value", "Interval_Seconds", "Toggle_Hotkey", "Button_HKValue"]
 Media_Key = Media_Next
 Toggle_Hotkey = ^!t
-counter := 0
 Hotkey, %Toggle_Hotkey%, Run_Button
+counter := 0
 
 ;GUI Preamble
 Gui, Color, f0eee9
@@ -29,7 +30,7 @@ Gui, Add, Text, x232 y64 w20 h20 , sec. ;seconds label
 Gui, Add, GroupBox, x12 y119 w260 h100 , Hotkey Settings
 Gui, Add, Text, x22 y149 w100 h20 , Set Toggle Hotkey:
 Gui, Add, Hotkey, x22 y169 w130 h20 Limit1 vToggle_Hotkey, ^!t
-Gui, Add, Button, x162 y199 w100 h30 gSubmit_HKValue, Apply
+Gui, Add, Button, x162 y199 w100 h30 vButton_HKValue gSubmit_HKValue, Apply
 
 ;Run
 Gui, Add, Button, x162 y250 w100 h30 vRun_Button_ID gRun_Button, Run
@@ -81,18 +82,20 @@ Return
 ;Run loop script
 Run_Button:
 {	
-	toggle_switch := !toggle_switch
+	toggle_switch := !toggle_switch ;Toggle Switch
 
 	SetTimer, Main_Loop, % toggle_switch=true ? "1000" : "off" ;toggles between running loop every second or off
 
 	if (toggle_switch){ ;toggle_switch = 1 | Running!
 		GuiControl, Text, Run_Button_ID, Stop
+		Controls_Enable(0) ;Disable Controls
 
 	} else if (!toggle_switch) { ;toggle_switch = 0 | Stopped!
 		GuiControl, Text, Run_Button_ID, Run
 		SB_SetText("Stopped!")
+		Controls_Enable(1) ;Enable Controls
 		Sleep 500
-		Gosub, Submit_Values
+		Gosub, Submit_Values ;Re-submits values and resets status bar
 	}
 
 }
@@ -106,6 +109,16 @@ Main_Loop:
 		SB_SetText("Running... " . Media_Key_Value . " in " . seconds_left . " second(s).")
 	} else {
 		counter := 0
-		Traytip,, Send Command
+
+		Send {%Media_Key%}
+		Traytip,, Sent %Media_Key_Value%
 	}
 Return
+
+Controls_Enable(ce){
+	Gui, Submit, NoHide
+	For Index, Element in Controls {
+		GuiControl, % ce=1 ? "Enable" : "Disable", % Element
+	}
+Return
+}
